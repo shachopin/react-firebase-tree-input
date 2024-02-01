@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import * as helpers from "./helpers";
 import NewEntryForm from "./NewEntryForm";
 import _ from "lodash";
+import { Fields } from "./Fields";
 
 export const FamilyTree = ({ tree, keysArray, updateState, originalItems }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -11,6 +12,14 @@ export const FamilyTree = ({ tree, keysArray, updateState, originalItems }) => {
     link: tree.link,
     desc: tree.desc,
   });
+  
+  useEffect(() => {
+    setState({
+      label: tree.label,
+      link: tree.link,
+      desc: tree.desc,
+    })
+  }, [tree.label, tree.link, tree.desc])
 
   const handleRemove = () => {
     //modifier pointer has to be landed at parent's items, therefore using slice
@@ -68,33 +77,7 @@ export const FamilyTree = ({ tree, keysArray, updateState, originalItems }) => {
   return (
     <>
       <div className="form-group row">
-        <div className="col-xs-2">
-          <input
-            className="form-control"
-            name="label"
-            value={state.label}
-            onChange={handleChange}
-            placeholder="Label"
-          />
-        </div>
-        <div className="col-xs-2">
-          <input
-            className="form-control"
-            name="link"
-            value={state.link}
-            onChange={handleChange}
-            placeholder="Link"
-          />
-        </div>
-        <div className="col-xs-5">
-          <input
-            className="form-control"
-            name="desc"
-            value={state.desc}
-            onChange={handleChange}
-            placeholder="Description"
-          />
-        </div>
+        <Fields handleChange={handleChange} state={state}/>
         <div className="col-xs-2">
           <i onClick={showMore} className="glyphicon glyphicon-collapse-down" />
           <i onClick={showForm} className="glyphicon glyphicon-plus" />
