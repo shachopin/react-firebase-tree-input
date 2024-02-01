@@ -1,7 +1,6 @@
 import update from "react-addons-update"; //https://facebook.github.io/react/docs/update.html
 
 const generateNewItemsObjectModifier = (oldItemsObjPointer, keysArray, callback) => {
-  console.log('dawei', keysArray);
   let modifierPointer = {};
   let modifier = modifierPointer;
   while (keysArray.length !== 0) {
@@ -17,7 +16,6 @@ const generateNewItemsObjectModifier = (oldItemsObjPointer, keysArray, callback)
     oldItemsObjPointer = oldItemsObjPointer[removedKey].items;
   }
 
- 
   callback(modifierPointer, oldItemsObjPointer);
   return modifier;
 };

@@ -17,7 +17,8 @@
     "@testing-library/user-event": "^12.1.10",
     "re-base": "^4.0.0",
     "firebase": "^8.1.1",
-    "react-addons-update": "^15.6.2"
+    "react-addons-update": "^15.6.2",
+    "lodash": "^4.17.11"
   },
   "devDependencies": {
     "vite": "^4.0.0"

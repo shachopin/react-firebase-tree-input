@@ -1,19 +1,22 @@
 import { useState } from "react";
 import * as helpers from "./helpers";
+import NewEntryForm from "./NewEntryForm";
+import _ from "lodash";
 
 export const FamilyTree = ({ tree, keysArray, updateState, originalItems }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [formShown, setFormShown] = useState(false);
-  const [value, setValue] = useState("");
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    updateState(
-      helpers.generateNewItemsObj(originalItems, [...keysArray], callbackForAdd)
-    );
-    setValue("");
-  };
+  const [state, setState] = useState({
+    label: tree.label,
+    link: tree.link,
+    desc: tree.desc,
+  });
 
-  const handleRemove = () => { //modifier pointer has to be landed at parent's items, therefore using slice
+  const handleRemove = () => {
+    //modifier pointer has to be landed at parent's items, therefore using slice
+    if (!confirm("Are you sure to delete this?")) {
+        return;
+    }  
     updateState(
       helpers.generateNewItemsObj(
         originalItems,
@@ -23,17 +26,29 @@ export const FamilyTree = ({ tree, keysArray, updateState, originalItems }) => {
     );
   };
 
-  const callbackForAdd = (modifierPointer, oldItemsObj) => {
-    const targetObj = { [`item-${Date.now()}`]: { label: value, desc: value } };
-    if (oldItemsObj === undefined) {
-      modifierPointer["$merge"] = { items: targetObj };
-    } else {
-      modifierPointer["$merge"] = targetObj;
-    }
-  };
-
   const callbackForRemove = (modifierPointer) => {
     modifierPointer[keysArray[keysArray.length - 1]] = { $set: null };
+  };
+
+  const debouncedUpdateState = _.debounce((newState) => {
+    updateState(newState);
+  }, 300);
+
+  const handleChange = (e) => {
+    setState({ ...state, [e.target.name]: e.target.value });
+    const callbackForUpdate = (modifierPointer) => {
+      modifierPointer[keysArray[keysArray.length - 1]] = {
+        [e.target.name]: { $set: e.target.value },
+      };
+    };
+
+    debouncedUpdateState(
+      helpers.generateNewItemsObj(
+        originalItems,
+        keysArray.slice(0, keysArray.length - 1),
+        callbackForUpdate
+      )
+    );
   };
 
   const showMore = () => {
@@ -52,12 +67,41 @@ export const FamilyTree = ({ tree, keysArray, updateState, originalItems }) => {
 
   return (
     <>
-      <p>
-        {tree.label} <button onClick={showMore}>show more</button>
-        <button onClick={showForm}>add</button>
-        <button onClick={collapse}>collapse</button>
-        <button onClick={handleRemove}>remove</button>
-      </p>
+      <div className="form-group row">
+        <div className="col-xs-2">
+          <input
+            className="form-control"
+            name="label"
+            value={state.label}
+            onChange={handleChange}
+            placeholder="Label"
+          />
+        </div>
+        <div className="col-xs-2">
+          <input
+            className="form-control"
+            name="link"
+            value={state.link}
+            onChange={handleChange}
+            placeholder="Link"
+          />
+        </div>
+        <div className="col-xs-5">
+          <input
+            className="form-control"
+            name="desc"
+            value={state.desc}
+            onChange={handleChange}
+            placeholder="Description"
+          />
+        </div>
+        <div className="col-xs-2">
+          <i onClick={showMore} className="glyphicon glyphicon-collapse-down" />
+          <i onClick={showForm} className="glyphicon glyphicon-plus" />
+          <i onClick={collapse} className="glyphicon glyphicon-collapse-up" />
+          <i onClick={handleRemove} className="glyphicon glyphicon-remove" />
+        </div>
+      </div>
       {isVisible && tree.items ? (
         Object.keys(tree.items).map((itemKey) => (
           <div key={itemKey} className="leftIndent">
@@ -74,9 +118,11 @@ export const FamilyTree = ({ tree, keysArray, updateState, originalItems }) => {
       )}
       {formShown && (
         <div className="leftIndent">
-          <form onSubmit={handleSubmit}>
-            <input value={value} onChange={(e) => setValue(e.target.value)} />
-          </form>
+          <NewEntryForm
+            updateState={updateState}
+            keysArray={keysArray}
+            originalItems={originalItems}
+          />
         </div>
       )}
     </>
