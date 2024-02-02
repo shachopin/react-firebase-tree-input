@@ -13,13 +13,13 @@ export const FamilyTree = ({ tree, keysArray, updateState, originalItems }) => {
     desc: tree.desc,
   });
   
-  useEffect(() => {
-    setState({
-      label: tree.label,
-      link: tree.link,
-      desc: tree.desc,
-    })
-  }, [tree.label, tree.link, tree.desc])
+  // useEffect(() => {
+  //   setState({
+  //     label: tree.label,
+  //     link: tree.link,
+  //     desc: tree.desc,
+  //   })
+  // }, [tree.label, tree.link, tree.desc])
 
   const handleRemove = () => {
     //modifier pointer has to be landed at parent's items, therefore using slice
