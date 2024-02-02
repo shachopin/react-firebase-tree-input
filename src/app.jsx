@@ -7,6 +7,7 @@ class App extends React.Component {
   state = {
     items: {},
     formShown: false,
+    expandAll: false,
   };
 
   componentDidMount() {
@@ -32,15 +33,24 @@ class App extends React.Component {
   toggleForm = () =>
     this.setState((prevState) => ({ formShown: !prevState.formShown }));
 
+  toggleExpandAll = () =>
+    this.setState((prevState) => ({ expandAll: !prevState.expandAll }));
+
   render() {
     return (
       <>
         <button
-          className="btn btn-primary"
-          style={{ marginRight: "10px" }}
+          className="btn btn-primary top-buttons"
           onClick={this.toggleForm}
         >
           {this.state.formShown ? "Cancel" : "Add to this bucket"}
+        </button>
+
+        <button
+          className="btn btn-success top-buttons"
+          onClick={this.toggleExpandAll}
+        >
+          {this.state.expandAll ? "Cancel" : "Expand All"}
         </button>
 
         {Object.keys(this.state.items).map((itemKey) => (
@@ -50,6 +60,7 @@ class App extends React.Component {
             keysArray={[itemKey]}
             updateState={this.updateState}
             originalItems={this.state.items}
+            expandAll={this.state.expandAll}
           />
         ))}
 
