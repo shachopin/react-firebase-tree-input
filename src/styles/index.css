@@ -78,3 +78,25 @@ i.glyphicon {
   background: #F5F5F5;
   border: none;
 }
+
+div.lineThrough {
+  position: relative;
+}
+
+div.lineThrough :after {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  border-bottom: 1px solid green;
+  width: 100%;
+}
+
+.indentCheckbox {
+  margin-left: 20px !important;
+  cursor: pointer
+}
+
+input + .indentFirstInput {
+  padding-left: 2px !important;
+}
