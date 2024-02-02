@@ -4,7 +4,7 @@ import NewEntryForm from "./NewEntryForm";
 import _ from "lodash";
 import { Fields } from "./Fields";
 
-export const FamilyTree = ({ tree, keysArray, updateState, originalItems }) => {
+export const FamilyTree = ({ tree, keysArray, updateState, originalItems, expandAll }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [formShown, setFormShown] = useState(false);
   const [state, setState] = useState({
@@ -102,7 +102,7 @@ export const FamilyTree = ({ tree, keysArray, updateState, originalItems }) => {
           <i onClick={handleRemove} className="glyphicon glyphicon-remove" />
         </div>
       </div>
-      {isVisible && tree.items ? (
+      {(expandAll || isVisible) && tree.items ? (
         Object.keys(tree.items).map((itemKey) => (
           <div key={itemKey} className="leftIndent">
             <FamilyTree
@@ -110,6 +110,7 @@ export const FamilyTree = ({ tree, keysArray, updateState, originalItems }) => {
               keysArray={[...keysArray, itemKey]}
               updateState={updateState}
               originalItems={originalItems}
+              expandAll={expandAll}
             />
           </div>
         ))

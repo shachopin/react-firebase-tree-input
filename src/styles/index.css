@@ -111,3 +111,7 @@ input + .indentFirstInput {
   display: flex;
   align-items: center;
 }
+.top-buttons {
+  margin-right: 10px;
+  margin-bottom: 10px; 
+}
