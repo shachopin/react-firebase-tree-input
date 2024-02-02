@@ -1,6 +1,6 @@
 export const Fields = ({state, handleChange}) => (
   <>
-    <div className="col-xs-3 indentFirstInput">
+    <div className="col-xs-3">
       <input type="text" name="label" placeholder="Label" value={state.label} onChange={handleChange} className="form-control"></input>
     </div>
     <div className="col-xs-2">
