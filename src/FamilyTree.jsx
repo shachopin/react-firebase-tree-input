@@ -87,15 +87,15 @@ export const FamilyTree = ({ tree, keysArray, updateState, originalItems }) => {
   return (
     <>
       <div className={`form-group row ${tree.status ? "lineThrough" : ""}`}>
-        <input
-          className="form-check-input indentCheckbox"
-          type="checkbox"
-          id="checkboxNoLabel"
-          onChange={handleCheckboxChange}
-          checked={tree.status}
-        />
         <Fields handleChange={handleChange} state={state} />
-        <div className="col-xs-2">
+        <div className="col-xs-2 layout">
+          <input
+            className="space-right"
+            type="checkbox"
+            id="checkboxNoLabel"
+            onChange={handleCheckboxChange}
+            checked={tree.status}
+          />
           <i onClick={showMore} className="glyphicon glyphicon-collapse-down" />
           <i onClick={showForm} className="glyphicon glyphicon-plus" />
           <i onClick={collapse} className="glyphicon glyphicon-collapse-up" />

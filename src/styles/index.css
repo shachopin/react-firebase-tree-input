@@ -92,11 +92,22 @@ div.lineThrough :after {
   width: 100%;
 }
 
-.indentCheckbox {
+/* .indentCheckbox {
   margin-left: 20px !important;
   cursor: pointer
 }
 
 input + .indentFirstInput {
   padding-left: 2px !important;
+} */
+
+.space-right {
+  margin-right: 9px !important;
+  cursor: pointer;
+  margin-top: 2px !important;
+}
+
+.layout {
+  display: flex;
+  align-items: center;
 }
