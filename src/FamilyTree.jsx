@@ -96,9 +96,9 @@ export const FamilyTree = ({ tree, keysArray, updateState, originalItems, expand
             onChange={handleCheckboxChange}
             checked={tree.status}
           />
-          <i onClick={showMore} className="glyphicon glyphicon-collapse-down" />
+          {!expandAll && <i onClick={showMore} className="glyphicon glyphicon-collapse-down" />}
           <i onClick={showForm} className="glyphicon glyphicon-plus" />
-          <i onClick={collapse} className="glyphicon glyphicon-collapse-up" />
+          {!expandAll && <i onClick={collapse} className="glyphicon glyphicon-collapse-up" />}
           <i onClick={handleRemove} className="glyphicon glyphicon-remove" />
         </div>
       </div>
