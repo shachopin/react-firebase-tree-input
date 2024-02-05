@@ -107,11 +107,11 @@ input + .indentFirstInput {
   margin-top: 2px !important;
 }
 
-.layout {
+.actionPanelLayout {
   display: flex;
   align-items: center;
 }
 .top-buttons {
-  margin-right: 10px;
-  margin-bottom: 10px; 
+  margin: 10px;
+  margin-left: 0px
 }

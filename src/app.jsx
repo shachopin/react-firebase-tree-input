@@ -10,21 +10,27 @@ class App extends React.Component {
     expandAll: false,
   };
 
-  componentDidMount() {
-    this.syncStateWithFirebase(); //will trigger 1st time componentDidUpdate
+  componentDidMount() { 
+    this.syncStateWithFirebase(this.props.match.params.subjectId);  //will trigger 1st time componentDidUpdate
   }
 
-  syncStateWithFirebase() {
-    //firebase step 2/4  - step3/4 is in base.js
-    this.ref = base.syncState("programming/items", {
+  //will trigger 2nd and 3rd time componentDidUpdate (2nd time is the normal flow, 3rd is after the synstate (setState) or lengthy api retrieval is completed)
+  //but componentWillReceiveProps will only run once, that's why you can put setState inside
+  //if you put setState logic in componentWillUpdate or componentDidUpdate, will be causing infinite cycle
+  componentWillReceiveProps(nextProps) { //even click on the same link, URL no change, will still trigger componentWillReceiveProps lifecyle method, 
+    //componentWillReceiveProps won't be called if only state changes
+    base.removeBinding(this.ref); //very important, to avoid records messing with each other brackets. Need to removeBinding first then resync with new brackets
+    this.setState({formShown: false, expandAll: false, items: {}}); //also, to refresh the component state, because we are reusing the same component instance across different firebase brackets
+    this.syncStateWithFirebase(nextProps.match.params.subjectId); 
+  }
+
+  syncStateWithFirebase(subjectId) { //firebase step 2/4  - step3/4 is in base.js
+    this.ref = base.syncState(`${subjectId || "programming"}/items`, {
       context: this,
-      state: "items",
-    });
+      state: "items"
+    }); 
   }
 
-  componentWillUnmount() {
-    base.removeBinding(this.ref); //firebase step 4/4 to avoid memory leak caused by unused idle linking with firebase
-  }
 
   updateState = (updatedItems) => {
     this.setState({ items: updatedItems });
@@ -61,6 +67,7 @@ class App extends React.Component {
             updateState={this.updateState}
             originalItems={this.state.items}
             expandAll={this.state.expandAll}
+            history={this.props.history}
           />
         ))}
 
