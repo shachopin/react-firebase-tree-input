@@ -4,7 +4,6 @@ const generateNewItemsObjectModifier = (oldItemsObjPointer, keysArray, callback)
   let modifierPointer = {};
   let modifier = modifierPointer;
   while (keysArray.length !== 0) {
-    
     const removedKey = keysArray.shift();
     if (oldItemsObjPointer[removedKey].items === undefined) {
       modifierPointer[removedKey] = {};
@@ -27,4 +26,13 @@ export const generateNewItemsObj = (oldItemsObj, indexArray, callback) => {
     oldItemsObj,
     generateNewItemsObjectModifier(oldItemsObj, indexArray, callback)
   );
+};
+
+export const pointToCurrentlySelectedNode = (oldItemsObjPointer, keysArray) => {
+
+  while (keysArray.length !== 0) {
+    const removedKey= keysArray.shift();
+    oldItemsObjPointer = oldItemsObjPointer[removedKey].items;
+  }
+  return oldItemsObjPointer;
 };
