@@ -28,7 +28,7 @@ export const FamilyTree = ({ tree, keysArray, updateState, originalItems, expand
   
   const handleRemove = () => {
     //modifier pointer has to be landed at parent's items, therefore using slice
-    if (!confirm("Are you sure to delete this?")) {
+    if (!confirm(`Are you sure to delete [${tree.label}]?`)) {
       return;
     }
     updateState(
