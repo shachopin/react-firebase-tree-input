@@ -92,6 +92,10 @@ div.lineThrough :after {
   width: 100%;
 }
 
+div.highlight {
+  background-color: yellow;
+}
+
 /* .indentCheckbox {
   margin-left: 20px !important;
   cursor: pointer
