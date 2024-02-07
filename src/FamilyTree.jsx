@@ -17,7 +17,7 @@ export const FamilyTree = ({ tree, keysArray, updateState, originalItems, expand
   
   const [showTooltip, setShowTooltip] = useState(false);
   const [showFixedTooltip, setShowFixedTooltip] = useState(false);
-
+  const [showWarningBackgroundForDelete, setShowWarningBackgroundForDelete] = useState(false);
   // useEffect(() => {
   //   setState({
   //     label: tree.label,
@@ -97,6 +97,10 @@ export const FamilyTree = ({ tree, keysArray, updateState, originalItems, expand
     setShowFixedTooltip(!showFixedTooltip);
   };
   
+  const handleMouseMovementForDelete = () => {
+    setShowWarningBackgroundForDelete(!showWarningBackgroundForDelete);
+  };
+  
   const handleCreateSuchInNewBucket = () => {
     const currentNode = helpers.pointToCurrentlySelectedNode(originalItems, keysArray.slice(0, keysArray.length - 1));
     firebase.database().ref(tree.label).child('items/root').set(currentNode[keysArray[keysArray.length - 1]]);
@@ -106,7 +110,7 @@ export const FamilyTree = ({ tree, keysArray, updateState, originalItems, expand
 
   return (
     <>
-      <div className={`form-group row ${tree.status ? "lineThrough" : ""}`}>
+      <div className={`form-group row ${tree.status ? "lineThrough" : ""} ${showWarningBackgroundForDelete ? "highlight" : ""}`}>
         <Fields handleChange={handleChange} state={state} onMouseOver={handleMouseMovementForShowTooltip} onMouseOut={handleMouseMovementForShowTooltip} onDoubleClick={handleDoubleClick}  />
         <div className="col-xs-2 actionPanelLayout">
           <input
@@ -119,7 +123,7 @@ export const FamilyTree = ({ tree, keysArray, updateState, originalItems, expand
           {!expandAll && <i onClick={showMore} className="glyphicon glyphicon-collapse-down" />}
           <i onClick={showForm} className="glyphicon glyphicon-plus" />
           {!expandAll && <i onClick={collapse} className="glyphicon glyphicon-collapse-up" />}
-          <i onClick={handleRemove} className="glyphicon glyphicon-remove" />
+          <i onClick={handleRemove} onMouseOver={handleMouseMovementForDelete} onMouseOut={handleMouseMovementForDelete} className="glyphicon glyphicon-remove" />
           <i onClick={handleCreateSuchInNewBucket} className="glyphicon glyphicon-new-window"/>
         </div>
       </div>
