@@ -93,10 +93,10 @@ div.lineThrough :after {
 }
 
 div.tempDone {
-  background-color: pink;
+  background-color: lightGreen;
 }
 div.tempDone input, div.tempDone textarea  {
-  background: pink !important;
+  background: lightGreen !important;
 }
 div.highlight {
   background-color: yellow;
