@@ -17,6 +17,13 @@ code {
   border-left: 1px dashed blue;
 }
 
+.leftIndent .row {
+  margin-left: 0px;
+}
+
+.leftIndent .col-xs-3:first-child {
+  padding-left: 0px;
+}
 
 body {
   margin: 5px;
