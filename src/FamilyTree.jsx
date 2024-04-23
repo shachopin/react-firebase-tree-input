@@ -26,6 +26,12 @@ export const FamilyTree = ({ tree, keysArray, updateState, originalItems, expand
   //   })
   // }, [tree.label, tree.link, tree.desc])  you know why you needed this to begin with then why remove it?
   
+  /*
+  a. adding/deleting works, but why update in the browser, the other browser field no change same app(because even when component rerender, useState will not re-run), ojet will update with no prob
+  b. why useEffect state work but then cause a slow typing issue - very sticky
+see if you can do a, otherwise, do b is good enough, and sacrifice a is fine
+  */
+  
   const handleRemove = () => {
     //modifier pointer has to be landed at parent's items, therefore using slice
     if (!confirm(`Are you sure to delete [${state.label}]?`)) {
