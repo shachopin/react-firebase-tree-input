@@ -92,10 +92,18 @@ div.lineThrough :after {
   width: 100%;
 }
 
+div.tempDone {
+  background-color: pink;
+}
+div.tempDone input, div.tempDone textarea  {
+  background: pink !important;
+}
 div.highlight {
   background-color: yellow;
 }
-
+div.highlight input, div.highlight textarea  {
+  background: yellow !important;
+}
 /* .indentCheckbox {
   margin-left: 20px !important;
   cursor: pointer

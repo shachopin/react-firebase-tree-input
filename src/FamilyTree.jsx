@@ -28,7 +28,7 @@ export const FamilyTree = ({ tree, keysArray, updateState, originalItems, expand
   
   const handleRemove = () => {
     //modifier pointer has to be landed at parent's items, therefore using slice
-    if (!confirm(`Are you sure to delete [${tree.label}]?`)) {
+    if (!confirm(`Are you sure to delete [${state.label}]?`)) {
       return;
     }
     updateState(
@@ -74,6 +74,20 @@ export const FamilyTree = ({ tree, keysArray, updateState, originalItems, expand
       )
     );
   };
+  
+  const handleCheckboxChange2 = () => {
+    updateState(
+      helpers.generateNewItemsObj(
+        originalItems,
+        keysArray.slice(0, keysArray.length - 1),
+        (modifierPointer) => {
+          modifierPointer[keysArray[keysArray.length - 1]] = {
+            tempDone: { $set: !tree.tempDone },
+          };
+        }
+      )
+    );
+  };
 
   const showMore = () => {
     setIsVisible(true);
@@ -110,7 +124,7 @@ export const FamilyTree = ({ tree, keysArray, updateState, originalItems, expand
 
   return (
     <>
-      <div className={`form-group row ${tree.status ? "lineThrough" : ""} ${showWarningBackgroundForDelete ? "highlight" : ""}`}>
+      <div className={`form-group row ${tree.status ? "lineThrough" : ""} ${tree.tempDone ? "tempDone" : ""} ${showWarningBackgroundForDelete ? "highlight" : ""}`}>
         <Fields handleChange={handleChange} state={state} onMouseOver={handleMouseMovementForShowTooltip} onMouseOut={handleMouseMovementForShowTooltip} onDoubleClick={handleDoubleClick}  />
         <div className="col-xs-2 actionPanelLayout">
           <input
@@ -120,9 +134,16 @@ export const FamilyTree = ({ tree, keysArray, updateState, originalItems, expand
             onChange={handleCheckboxChange}
             checked={tree.status}
           />
+          <input
+            className="space-right"
+            type="checkbox"
+            id="checkboxNoLabel2"
+            onChange={handleCheckboxChange2}
+            checked={tree.tempDone}
+          />
           {!expandAll && <i onClick={showMore} className="glyphicon glyphicon-collapse-down" />}
-          <i onClick={showForm} className="glyphicon glyphicon-plus" />
           {!expandAll && <i onClick={collapse} className="glyphicon glyphicon-collapse-up" />}
+          <i onClick={showForm} className="glyphicon glyphicon-plus" />
           <i onClick={handleRemove} onMouseOver={handleMouseMovementForDelete} onMouseOut={handleMouseMovementForDelete} className="glyphicon glyphicon-remove" />
           <i onClick={handleCreateSuchInNewBucket} className="glyphicon glyphicon-new-window"/>
         </div>
