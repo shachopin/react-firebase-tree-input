@@ -36,3 +36,7 @@ export const pointToCurrentlySelectedNode = (oldItemsObjPointer, keysArray) => {
   }
   return oldItemsObjPointer;
 };
+
+
+export const includesCaseInsensitive = (str, searchString) =>
+  new RegExp(searchString, 'i').test(str);

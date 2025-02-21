@@ -8,6 +8,7 @@ class App extends React.Component {
     items: {},
     formShown: false,
     expandAll: false,
+    searchText: '',
   };
 
   componentDidMount() { 
@@ -58,6 +59,12 @@ class App extends React.Component {
         >
           {this.state.expandAll ? "Cancel" : "Expand All"}
         </button>
+        
+        <input
+          onChange={(e) => this.setState({searchText: e.target.value})}
+          style={{border: 0, height: 30, width:200 }}
+          placeholder="Search"
+        />
 
         {Object.keys(this.state.items).map((itemKey) => (
           <FamilyTree
@@ -68,6 +75,7 @@ class App extends React.Component {
             originalItems={this.state.items}
             expandAll={this.state.expandAll}
             history={this.props.history}
+            searchText={this.state.searchText}
           />
         ))}
 

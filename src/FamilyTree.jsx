@@ -6,7 +6,7 @@ import { Fields } from "./Fields";
 import { Tooltip } from "./Tooltip";
 import firebase from 'firebase/app';
 
-export const FamilyTree = ({ tree, keysArray, updateState, originalItems, expandAll, history }) => {
+export const FamilyTree = ({ tree, keysArray, updateState, originalItems, expandAll, history, searchText }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [formShown, setFormShown] = useState(false);
   const [state, setState] = useState({
@@ -127,6 +127,16 @@ see if you can do a, otherwise, do b is good enough, and sacrifice a is fine
     firebase.database().ref('subjectList/items').child(tree.label).set(true);
     history.push(tree.label);
   };
+  
+  const showTheLineItem = 
+        tree.items || //只要有孩子就显示，父母节点永远显示
+        (helpers.includesCaseInsensitive(state.label, searchText) || //孩子节点要满足search criteria再显示
+        helpers.includesCaseInsensitive(state.link, searchText) ||
+        helpers.includesCaseInsensitive(state.desc, searchText))
+  
+  if (!showTheLineItem) {
+    return null;
+  }
 
   return (
     <>
@@ -167,6 +177,7 @@ see if you can do a, otherwise, do b is good enough, and sacrifice a is fine
               originalItems={originalItems}
               expandAll={expandAll}
               history={history}
+              searchText={searchText}
             />
           </div>
         ))
